@@ -7,4 +7,7 @@ router.get('/landing-page', apiController.landingPage);
 router.get('/detail-page/:id', apiController.detailPage);
 router.post('/booking-page', upload, apiController.bookingPage);
 
+// FOR MOBILE
+router.get('/home-page', apiController.homePage);
+
 module.exports = router;

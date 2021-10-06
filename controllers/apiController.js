@@ -5,6 +5,7 @@ const Category = require('../models/Category');
 const Bank = require('../models/Bank');
 const Booking = require('../models/Booking');
 const Member = require('../models/Member');
+const Explore = require('../models/Explore');
 
 module.exports = {
   landingPage: async (req, res) => {
@@ -181,6 +182,35 @@ module.exports = {
       const booking = await Booking.create(newBooking);
 
       res.status(201).json({ message: 'Success Booking', booking });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server ERROR' });
+    }
+  },
+
+  // For Mobile API
+
+  homePage: async (req, res) => {
+    try {
+      const reccomendedForYou = await Item.find()
+        .select('_id title country city imageId')
+        .limit(4)
+        .populate({ path: 'imageId', select: '_id imageUrl' });
+
+      const mostPopular = await Item.find()
+        .select('_id title country city imageId')
+        .limit(4)
+        .populate({ path: 'imageId', select: '_id imageUrl' });
+
+      const ExploreNearby = await Explore.find()
+        .limit(6)
+        .populate({ path: 'imageId', select: '_id imageUrl' });
+
+      res.status(200).json({
+        reccomendedForYou,
+        mostPopular,
+        ExploreNearby,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal Server ERROR' });
