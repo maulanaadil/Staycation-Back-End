@@ -9,5 +9,6 @@ router.post('/booking-page', upload, apiController.bookingPage);
 
 // FOR MOBILE
 router.get('/home-page', apiController.homePage);
+router.get('/detail-page-mobile/:id', apiController.detailPageMobile);
 
 module.exports = router;

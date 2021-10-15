@@ -216,4 +216,54 @@ module.exports = {
       res.status(500).json({ message: 'Internal Server ERROR' });
     }
   },
+
+  detailPageMobile: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const item = await Item.findOne({ _id: id })
+        .populate({ path: 'featureId', select: '_id qty name imageUrl' })
+        .populate({ path: 'activityId', select: '_id name type imageUrl ' })
+        .populate({ path: 'imageId', select: '_id imageUrl' });
+
+      const map = {
+        location: 'Bandung',
+      };
+
+      const feedback = [
+        {
+          _id: 'kkl1293uasdads1',
+          imageUrl: '#',
+          rate: 4.0,
+          userName: 'Shintya Delina',
+          content:
+            'As wife i can pick a great trip with my own children and the places is so really beautyfull ',
+        },
+        {
+          _id: 'kkl1293uasdads2',
+          imageUrl: '#',
+          rate: 4.0,
+          userName: 'Latifah',
+          content:
+            'As wife i can pick a great trip with my own children and the places is so really beautyfull ',
+        },
+        {
+          _id: 'kkl1293uasdads3',
+          imageUrl: '#',
+          rate: 4.0,
+          userName: 'Eveline',
+          content:
+            'As wife i can pick a great trip with my own children and the places is so really beautyfull ',
+        },
+      ];
+
+      res.status(200).json({
+        ...item._doc,
+        map,
+        feedback,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server ERROR' });
+    }
+  },
 };
